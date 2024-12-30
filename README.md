@@ -8,7 +8,10 @@
 
 ## 快速开始
 
-下面是与应用对话的的例子：
+下面是与应用对话的原接口风格例子(支持 openai 接口风格对话)：
+```bash
+go get package github.com/Ewall555/MaxKB-golang-sdk
+```
 
 ```go
 package main
@@ -22,7 +25,7 @@ import (
 )
 
 func main() {
-	var baseURL = "https://maxkb.example.com"
+	var baseURL = "http(s)://maxkb.example.com"
 	var apiKey = "application-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 	// 初始化
 	mkClient := mk.New(baseURL, apiKey)

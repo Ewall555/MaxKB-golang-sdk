@@ -22,6 +22,8 @@ const (
 	ApplicationByAppidGetAddr       = "/%s/application"
 	ChatOpenByApplication_idGetAddr = "/%s/chat/open"
 	VotePutAddr                     = "/%s/chat/%s/chat_record/%s/vote"
+
+	ChatCompletionsByApplication_id = "/%s/chat/completions"
 )
 
 type ApplicationChat struct {
@@ -111,4 +113,54 @@ func (c *ApplicationChat) ChatOpenByApplication_id(appid string) (*string, error
 		return nil, fmt.Errorf("API error: %s (code: %d)", resp.Message, resp.Code)
 	}
 	return &resp.Data, nil
+}
+
+// openai接口对话
+func (c *ApplicationChat) ChatCompletions(req request.ChatCompletionsRequest, application_id string, streamCallback func(*response.ChatCompletionsStreamResponse)) (*response.ChatCompletionsResponse, error) {
+	endpoint := constant.ApplicationPath + fmt.Sprintf(ChatCompletionsByApplication_id, application_id)
+	if req.Stream {
+		resp, err := c.client.DoRequestStream("POST", endpoint, req)
+		if err != nil {
+			return nil, err
+		}
+		defer resp.Body.Close()
+
+		reader := bufio.NewReader(resp.Body)
+		for {
+			line, err := reader.ReadBytes('\n')
+			if err != nil {
+				if err == io.EOF {
+					break
+				}
+				return nil, fmt.Errorf("error: %w", err)
+			}
+			line = bytes.TrimSpace(line)
+			if len(line) == 0 {
+				continue
+			}
+			if !strings.HasPrefix(string(line), "data: ") {
+				fmt.Printf("Unexpected line: %s\n", string(line))
+				continue
+			}
+			line = line[6:]
+
+			var data response.ChatCompletionsStreamResponse
+			if err := json.Unmarshal(line, &data); err != nil {
+				return nil, fmt.Errorf("error: %w", err)
+			}
+
+			streamCallback(&data)
+
+			if data.Choices[0].FinishReason == "stop" {
+				break
+			}
+		}
+		return nil, nil
+	}
+	var resp response.ChatCompletionsResponse
+	err := c.client.DoRequest("POST", endpoint, req, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return &resp, nil
 }

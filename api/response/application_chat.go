@@ -34,7 +34,7 @@ type TokenUsage struct {
 	TotalTokens      int `json:"total_tokens"`
 }
 
-// profile
+// Profile
 
 type ProfileResponse struct {
 	ID                     string                 `json:"id"`
@@ -81,4 +81,70 @@ type FloatLocation struct {
 type FloatLocationValue struct {
 	Type  string  `json:"type"`
 	Value float64 `json:"value"`
+}
+
+// ChatCompletions, stream false
+type ChatCompletionsResponse struct {
+	ID                string   `json:"id"`
+	Choices           []Choice `json:"choices"`
+	Created           int      `json:"created"`
+	Model             string   `json:"model"`
+	Object            string   `json:"object"`
+	ServiceTier       *string  `json:"service_tier"`
+	SystemFingerprint *string  `json:"system_fingerprint"`
+	Usage             Usage    `json:"usage"`
+}
+
+type Choice struct {
+	FinishReason string  `json:"finish_reason"`
+	Index        int     `json:"index"`
+	Logprobs     *string `json:"logprobs"`
+	Message      Message `json:"message"`
+	ChatID       string  `json:"chat_id"`
+}
+
+type Message struct {
+	Content      string  `json:"content"`
+	Refusal      *string `json:"refusal"`
+	Role         string  `json:"role"`
+	Audio        *string `json:"audio"`
+	FunctionCall *string `json:"function_call"`
+	ToolCalls    *string `json:"tool_calls"`
+}
+
+type Usage struct {
+	CompletionTokens        int     `json:"completion_tokens"`
+	PromptTokens            int     `json:"prompt_tokens"`
+	TotalTokens             int     `json:"total_tokens"`
+	CompletionTokensDetails *string `json:"completion_tokens_details"`
+	PromptTokensDetails     *string `json:"prompt_tokens_details"`
+}
+
+// ChatCompletions, stream true
+
+type ChatCompletionsStreamResponse struct {
+	ID                string         `json:"id"`
+	Choices           []StreamChoice `json:"choices"`
+	Created           int            `json:"created"`
+	Model             string         `json:"model"`
+	Object            string         `json:"object"`
+	ServiceTier       *string        `json:"service_tier"`
+	SystemFingerprint *string        `json:"system_fingerprint"`
+	Usage             Usage          `json:"usage"`
+}
+
+type StreamChoice struct {
+	FinishReason string  `json:"finish_reason"`
+	Index        int     `json:"index"`
+	Logprobs     *string `json:"logprobs"`
+	Delta        Delta   `json:"delta"`
+}
+
+type Delta struct {
+	Content      string  `json:"content"`
+	Role         string  `json:"role"`
+	ToolCalls    *string `json:"tool_calls"`
+	FunctionCall *string `json:"function_call"`
+	Refusal      *string `json:"refusal"`
+	ChatID       string  `json:"chat_id"`
 }
