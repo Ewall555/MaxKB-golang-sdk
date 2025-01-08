@@ -11,7 +11,7 @@ import (
 	"github.com/Ewall555/MaxKB-golang-sdk/api/constant"
 	"github.com/Ewall555/MaxKB-golang-sdk/api/request"
 	"github.com/Ewall555/MaxKB-golang-sdk/api/response"
-	"github.com/Ewall555/MaxKB-golang-sdk/client"
+	"github.com/Ewall555/MaxKB-golang-sdk/context"
 )
 
 const (
@@ -23,22 +23,22 @@ const (
 	ChatOpenByApplication_idGetAddr = "/%s/chat/open"
 	VotePutAddr                     = "/%s/chat/%s/chat_record/%s/vote"
 
-	ChatCompletionsByApplication_id = "/%s/chat/completions"
+	ChatCompletionsByApplication_idAddr = "/%s/chat/completions"
 )
 
 type ApplicationChat struct {
-	client *client.Client
+	*context.Context
 }
 
-func NewApplicationChat(cli *client.Client) *ApplicationChat {
-	return &ApplicationChat{client: cli}
+func NewApplicationChat(ctx *context.Context) *ApplicationChat {
+	return &ApplicationChat{Context: ctx}
 }
 
 // 对话
 func (c *ApplicationChat) Chat_messageByChat_id(req request.Chat_messagePostRequest, chatid *string, streamCallback func(*response.Chat_messagePostStreamResponse)) (*response.Chat_messagePostResponse, error) {
 	endpoint := constant.ApplicationPath + fmt.Sprintf(Chat_messageByChat_idPostAddr, *chatid)
 	if req.Stream {
-		resp, err := c.client.DoRequestStream("POST", endpoint, req)
+		resp, err := c.DoRequestStream("POST", endpoint, req)
 		if err != nil {
 			return nil, err
 		}
@@ -77,7 +77,7 @@ func (c *ApplicationChat) Chat_messageByChat_id(req request.Chat_messagePostRequ
 		return nil, nil
 	}
 	var resp response.ApiResponse[response.Chat_messagePostResponse]
-	err := c.client.DoRequest("POST", endpoint, req, &resp)
+	err := c.DoRequest("POST", endpoint, req, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -91,7 +91,7 @@ func (c *ApplicationChat) Chat_messageByChat_id(req request.Chat_messagePostRequ
 func (c *ApplicationChat) Profile() (*response.ProfileResponse, error) {
 	var resp response.ApiResponse[response.ProfileResponse]
 	endpoint := constant.ApplicationPath + ProfileGetAddr
-	err := c.client.DoRequest("GET", endpoint, nil, &resp)
+	err := c.DoRequest("GET", endpoint, nil, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -105,7 +105,7 @@ func (c *ApplicationChat) Profile() (*response.ProfileResponse, error) {
 func (c *ApplicationChat) ChatOpenByApplication_id(appid string) (*string, error) {
 	var resp response.ApiResponse[string]
 	endpoint := constant.ApplicationPath + fmt.Sprintf(ChatOpenByApplication_idGetAddr, appid)
-	err := c.client.DoRequest("GET", endpoint, nil, &resp)
+	err := c.DoRequest("GET", endpoint, nil, &resp)
 	if err != nil {
 		return nil, err
 	}
@@ -117,9 +117,9 @@ func (c *ApplicationChat) ChatOpenByApplication_id(appid string) (*string, error
 
 // openai接口对话
 func (c *ApplicationChat) ChatCompletions(req request.ChatCompletionsRequest, application_id string, streamCallback func(*response.ChatCompletionsStreamResponse)) (*response.ChatCompletionsResponse, error) {
-	endpoint := constant.ApplicationPath + fmt.Sprintf(ChatCompletionsByApplication_id, application_id)
+	endpoint := constant.ApplicationPath + fmt.Sprintf(ChatCompletionsByApplication_idAddr, application_id)
 	if req.Stream {
-		resp, err := c.client.DoRequestStream("POST", endpoint, req)
+		resp, err := c.DoRequestStream("POST", endpoint, req)
 		if err != nil {
 			return nil, err
 		}
@@ -158,7 +158,7 @@ func (c *ApplicationChat) ChatCompletions(req request.ChatCompletionsRequest, ap
 		return nil, nil
 	}
 	var resp response.ChatCompletionsResponse
-	err := c.client.DoRequest("POST", endpoint, req, &resp)
+	err := c.DoRequest("POST", endpoint, req, &resp)
 	if err != nil {
 		return nil, err
 	}

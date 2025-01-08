@@ -18,24 +18,29 @@ package main
 
 import (
 	"fmt"
-
 	mk "github.com/Ewall555/MaxKB-golang-sdk/maxkb"            // 引入包
 	mkreq "github.com/Ewall555/MaxKB-golang-sdk/api/request"   // 请求参数
 	mkresp "github.com/Ewall555/MaxKB-golang-sdk/api/response" // 返回参数
+	mkconfig "github.com/Ewall555/MaxKB-golang-sdk/config"     // 配置参数
 )
 
 func main() {
 	var baseURL = "http(s)://maxkb.example.com"
-	var apiKey = "application-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+	var apiKey = "application(user)-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 	// 初始化
-	mkClient := mk.New(baseURL, apiKey)
+	mkClient := mk.NewMaxKB(&mkconfig.Config{
+		BaseURL: baseURL,
+		ApiKey:  apiKey,
+	})
+	// 获取应用聊天接口
+	applicationChat := mkClient.GetApplicationChat()
 	// 获取应用相关信息
-	profileresp, err := mkClient.ApplicationChat.Profile()
+	profileresp, err := applicationChat.Profile()
 	if err != nil {
 		panic(err)
 	}
 	// 获取会话id,根据应用id
-	chatid, err := mkClient.ApplicationChat.ChatOpenByApplication_id(profileresp.ID)
+	chatid, err := applicationChat.ChatOpenByApplication_id(profileresp.ID)
 	if err != nil {
 		panic(err)
 	}
@@ -50,7 +55,7 @@ func main() {
 		fmt.Printf("%+v", data.Content)
 	}
 	// 对话
-	resp, err := mkClient.ApplicationChat.Chat_messageByChat_id(req, chatid, streamCallback)
+	resp, err := applicationChat.Chat_messageByChat_id(req, chatid, streamCallback)
 	if err != nil {
 		panic(err)
 	}
@@ -59,6 +64,7 @@ func main() {
 		fmt.Printf("%+v", resp.Content)
 	}
 }
+
 
 ```
 
