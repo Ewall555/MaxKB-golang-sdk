@@ -52,7 +52,8 @@ func main() {
 	}
 	// 流式回调
 	streamCallback := func(data *mkresp.Chat_messagePostStreamResponse) {
-		fmt.Printf("%+v", data.Content)
+		fmt.Printf("%s", data.ReasoningContent) //思考过程
+		fmt.Printf("%s", data.Content)          //思考结果
 	}
 	// 对话
 	resp, err := applicationChat.Chat_messageByChat_id(req, chatid, streamCallback)
@@ -61,10 +62,9 @@ func main() {
 	}
 	// 非流式响应
 	if resp != nil {
-		fmt.Printf("%+v", resp.Content)
+		fmt.Printf("%s", resp.Content)
 	}
 }
-
 
 ```
 
