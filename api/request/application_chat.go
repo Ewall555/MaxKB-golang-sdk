@@ -1,9 +1,10 @@
 package request
 
 type Chat_messagePostRequest struct {
-	Message string `json:"message"`
-	ReChat  bool   `json:"re_chat"`
-	Stream  bool   `json:"stream"`
+	Message  string                 `json:"message"`
+	ReChat   bool                   `json:"re_chat"`
+	Stream   bool                   `json:"stream"`
+	FormData map[string]interface{} `json:"form_data"`
 }
 
 type ChatCompletionsRequest struct {
