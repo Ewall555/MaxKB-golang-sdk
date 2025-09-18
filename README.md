@@ -10,7 +10,7 @@
 
 下面是与应用对话的原接口风格例子(支持 openai 接口风格对话)：
 ```bash
-go get package github.com/Ewall555/MaxKB-golang-sdk
+go get package github.com/Ewall555/MaxKB-golang-sdk/v2
 ```
 
 ```go
@@ -18,10 +18,10 @@ package main
 
 import (
 	"fmt"
-	mk "github.com/Ewall555/MaxKB-golang-sdk/maxkb"            // 引入包
-	mkreq "github.com/Ewall555/MaxKB-golang-sdk/api/request"   // 请求参数
-	mkresp "github.com/Ewall555/MaxKB-golang-sdk/api/response" // 返回参数
-	mkconfig "github.com/Ewall555/MaxKB-golang-sdk/config"     // 配置参数
+	mk "github.com/Ewall555/MaxKB-golang-sdk/v2/maxkb"            // 引入包
+	mkreq "github.com/Ewall555/MaxKB-golang-sdk/v2/api/request"   // 请求参数
+	mkresp "github.com/Ewall555/MaxKB-golang-sdk/v2/api/response" // 返回参数
+	mkconfig "github.com/Ewall555/MaxKB-golang-sdk/v2/config"     // 配置参数
 )
 
 func main() {

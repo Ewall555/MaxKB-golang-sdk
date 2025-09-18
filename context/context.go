@@ -1,8 +1,8 @@
 package context
 
 import (
-	"github.com/Ewall555/MaxKB-golang-sdk/config"
-	"github.com/Ewall555/MaxKB-golang-sdk/httpclient"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/config"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/httpclient"
 )
 
 // Context struct

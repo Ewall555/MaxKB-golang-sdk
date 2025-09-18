@@ -3,10 +3,10 @@ package maxkb
 import (
 	"net/http"
 
-	"github.com/Ewall555/MaxKB-golang-sdk/api/application"
-	"github.com/Ewall555/MaxKB-golang-sdk/config"
-	"github.com/Ewall555/MaxKB-golang-sdk/context"
-	"github.com/Ewall555/MaxKB-golang-sdk/httpclient"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/api/application"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/config"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/context"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/httpclient"
 )
 
 type MaxKB struct {

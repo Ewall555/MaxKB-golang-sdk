@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/Ewall555/MaxKB-golang-sdk/api/constant"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/api/constant"
 )
 
 type MaxKBHTTPClient struct {

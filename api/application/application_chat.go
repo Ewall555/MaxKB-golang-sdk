@@ -8,10 +8,10 @@ import (
 	"io"
 	"strings"
 
-	"github.com/Ewall555/MaxKB-golang-sdk/api/constant"
-	"github.com/Ewall555/MaxKB-golang-sdk/api/request"
-	"github.com/Ewall555/MaxKB-golang-sdk/api/response"
-	"github.com/Ewall555/MaxKB-golang-sdk/context"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/api/constant"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/api/request"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/api/response"
+	"github.com/Ewall555/MaxKB-golang-sdk/v2/context"
 )
 
 const (
