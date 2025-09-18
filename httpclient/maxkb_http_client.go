@@ -73,7 +73,7 @@ func (c *MaxKBHTTPClient) DoRequestStream(method, endpoint string, body interfac
 		return nil, fmt.Errorf("failed to create request: %w", err)
 	}
 
-	req.Header.Set("Authorization", c.ApiKey)
+	req.Header.Set("Authorization", "Bearer "+c.ApiKey)
 	req.Header.Set("Content-Type", "application/json;charset=utf-8")
 
 	resp, err := c.HTTPClient.Do(req)

@@ -1,6 +1,6 @@
 package constant
 
 const (
-	ApiBase         = "/api"
+	ApiBase         = "/chat/api"
 	ApplicationPath = "/application"
 )

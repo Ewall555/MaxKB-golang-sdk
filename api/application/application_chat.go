@@ -15,13 +15,14 @@ import (
 )
 
 const (
-	ChatOpenPostAddr                = "/chat/open"
-	Chat_messageByChat_idPostAddr   = "/chat_message/%s"
-	Chat_workflowOpenPostAddr       = "/chat_workflow/open"
-	ProfileGetAddr                  = "/profile"
-	ApplicationByAppidGetAddr       = "/%s/application"
-	ChatOpenByApplication_idGetAddr = "/%s/chat/open"
-	VotePutAddr                     = "/%s/chat/%s/chat_record/%s/vote"
+	ChatOpenPostAddr                  = "/chat/open"
+	Chat_messageByChat_idPostAddr     = "/chat_message/%s"
+	Chat_workflowOpenPostAddr         = "/chat_workflow/open"
+	ProfileGetAddr                    = "/profile"
+	ApplicationByAppidGetAddr         = "/%s/application"
+	ChatOpenByApplication_idGetAddr   = "/%s/chat/open"
+	v2ChatOpenByApplication_idGetAddr = "/open"
+	VotePutAddr                       = "/%s/chat/%s/chat_record/%s/vote"
 
 	ChatCompletionsByApplication_idAddr = "/%s/chat/completions"
 )
@@ -36,7 +37,7 @@ func NewApplicationChat(ctx *context.Context) *ApplicationChat {
 
 // 对话
 func (c *ApplicationChat) Chat_messageByChat_id(req request.Chat_messagePostRequest, chatid *string, streamCallback func(*response.Chat_messagePostStreamResponse)) (*response.Chat_messagePostResponse, error) {
-	endpoint := constant.ApplicationPath + fmt.Sprintf(Chat_messageByChat_idPostAddr, *chatid)
+	endpoint := fmt.Sprintf(Chat_messageByChat_idPostAddr, *chatid)
 	if req.Stream {
 		resp, err := c.DoRequestStream("POST", endpoint, req)
 		if err != nil {
@@ -104,7 +105,7 @@ func (c *ApplicationChat) Profile() (*response.ProfileResponse, error) {
 // 获取会话id,根据应用id
 func (c *ApplicationChat) ChatOpenByApplication_id(appid string) (*string, error) {
 	var resp response.ApiResponse[string]
-	endpoint := constant.ApplicationPath + fmt.Sprintf(ChatOpenByApplication_idGetAddr, appid)
+	endpoint := v2ChatOpenByApplication_idGetAddr
 	err := c.DoRequest("GET", endpoint, nil, &resp)
 	if err != nil {
 		return nil, err
