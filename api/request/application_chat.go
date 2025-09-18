@@ -8,10 +8,11 @@ type Chat_messagePostRequest struct {
 }
 
 type ChatCompletionsRequest struct {
-	Messages []Message `json:"messages"`
-	ChatID   string    `json:"chat_id,omitempty"`
-	ReChat   bool      `json:"re_chat"`
-	Stream   bool      `json:"stream"`
+	Messages []Message              `json:"messages"`
+	ChatID   string                 `json:"chat_id,omitempty"`
+	ReChat   bool                   `json:"re_chat"`
+	Stream   bool                   `json:"stream"`
+	FormData map[string]interface{} `json:"form_data"`
 }
 
 type Message struct {
